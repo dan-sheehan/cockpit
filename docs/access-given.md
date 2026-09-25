@@ -41,6 +41,7 @@ The scanner reads everything below at startup, on every watched change, and on e
 **Each discovered project** (discovery rules: [plumbing.md](../plumbing.md#project-discovery))
 - The top-level file list.
 - `package.json`, `CLAUDE.md`, `CLAUDE.local.md` and `AGENTS.md`.
+- For each `@import` in `CLAUDE.md` and each relative Markdown link in those three files: whether the target exists inside the project and, for a file, its size. Targets are never read. A target whose path, or a symlink on the way, leaves the project is reported only as `outside`, never sized.
 - `.mcp.json`, `.claude/settings.json` and `.claude/settings.local.json`.
 - `.claude/skills`, `.claude/agents`, `.claude/commands` and `.claude/swag.md`, plus `.agents/skills`.
 - Git state (branch, status, last 5 commits, remote names).

@@ -75,6 +75,10 @@ This page covers only terms that have a specific meaning in cockpit, or that mea
 
 **Instruction file.** Any file that can steer an agent, of kind `instructions` (`CLAUDE.md`, `AGENTS.md`), `settings`, `rule`, `memory` or `memory-index`.
 
+**Import** and **link.** Two ways a project entry point (`CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`) can point at another file, kept apart in the scan:
+- an **import** is a line-start `@path` in `CLAUDE.md`, which Claude Code expands when it loads the file (`includes`, resolved in `includesResolved`);
+- a **link** is a relative Markdown link such as `[harness.md](harness.md)`. It is only text: no tool loads the target because of it (`linksResolved`).
+
 **Change.** One difference between two consecutive scans, such as "skill added" or "branch a → b". Stored in `data/changes.jsonl`.
 
 **Attention item.** A possible problem derived from the scan by a heuristic. It is a prompt to look, not a verdict.

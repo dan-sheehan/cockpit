@@ -44,7 +44,7 @@ There is one overlap. cockpit always discovers its own checkout. If a session or
 | Changing… | Code | Tests (`test/…test.mjs`) | Keep true |
 |---|---|---|---|
 | API, request admission, file viewer | `server.mjs` | `server`, `request-admission`, `file-safety`, `file-roots` | plumbing (Server), access-given |
-| Scanner, project discovery, homes | `lib/scan.mjs`, `lib/homes.mjs`, `lib/frontmatter.mjs` | `scan`, `scan-redaction`, `project-containment`, `file-safety`, `frontmatter`, `machine` | plumbing (Scan), access-given (Reads) |
+| Scanner, project discovery, homes | `lib/scan.mjs`, `lib/homes.mjs`, `lib/frontmatter.mjs` | `scan`, `scan-redaction`, `project-containment`, `instruction-refs`, `file-safety`, `frontmatter`, `machine` | plumbing (Scan), access-given (Reads) |
 | Redaction | `lib/redact.mjs`, `redactDiff` in `lib/workflow.mjs` | `redact`, `scan-redaction`, `review-redaction`, `adhoc-review-redaction`, `file-safety`, `transcripts` | access-given (Redaction) |
 | Collaboration session | `lib/workflow.mjs`, `lib/git.mjs`, `lib/report.mjs` | `review-redaction`, `report`, `server` (input validation only) | workflows, access-given (Launches agents) |
 | Agent command lines | `lib/adapters/claude.mjs`, `lib/adapters/codex.mjs` | `adapters` | access-given, workflows |
