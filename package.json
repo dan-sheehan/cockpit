@@ -1,0 +1,16 @@
+{
+  "name": "cockpit",
+  "version": "0.1.0",
+  "description": "A local AI operating environment: visibility, operability, and Claude/Codex collaboration.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/",
+    "test:machine": "COCKPIT_MACHINE_TESTS=1 node --test test/",
+    "open": "open http://127.0.0.1:4848/"
+  }
+}
