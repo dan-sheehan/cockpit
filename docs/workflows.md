@@ -31,9 +31,11 @@ The **rescan** link in the rail forces a scan.
 ## Looking around
 
 - **File viewer.** Amber paths open in the file viewer (the `← back` bar replaces the detail pane). Directories list their entries. Content is redacted, and blocked files are refused ([access-given.md](access-given.md#refuses)).
+- **Instruction references.** The Instructions detail for a project `CLAUDE.md`, `CLAUDE.local.md` or `AGENTS.md`, and the Projects view (overview spine and **ai config**), list what the file points at, from the scan's `includesResolved` and `linksResolved`: `imports →` or `links to →`, the target, its status (`present` with its size, `missing`, or `outside`, which is not followed), and any other entry point that points at the same file. A present target opens in the file viewer, or at its own row if it is an instruction file. A referenced file never becomes a row itself.
 - **Search.** ⌘K or `/` focuses the search box. It matches, in the browser, against already-loaded skills, instruction files (including their text), projects, sessions, transcripts, MCP servers, hooks and Codex exec-policy rules.
 - **Attention.** The Attention panel on Environment is recomputed in the browser on every render, from the scan and the session list. It flags:
-  - broken `[[skill]]` links and unresolved `@include`s;
+  - broken `[[skill]]` links;
+  - a project `CLAUDE.md` whose `@import` target is `missing`. Present and `outside` targets, and links, are not flagged;
   - Codex trust on `~`, and Codex trust on paths that are not projects;
   - exec-policy rules that allow `curl`, `pip install`, `npm install`, `sudo` or `rm`;
   - code without git, and dirty repos;

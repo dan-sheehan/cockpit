@@ -133,6 +133,16 @@ A candidate is dropped if its real path does not exist, or is `/`, `HOME` or an 
 
 Inside a project, every file the scanner reads goes through `within()`. It is used only if its real path stays inside the project's real root, so a symlink that escapes the project reads as missing. The Claude and Codex homes are read without that check.
 
+### Instruction references
+
+Each project entry-point row in `instructions` (`CLAUDE.md`, `CLAUDE.local.md`, `AGENTS.md`) carries what it points at ([import and link](docs/definitions.md)):
+
+- `includes`: the raw `@` refs at the start of a line in `CLAUDE.md` (empty for the other two). Unchanged, and copied into session context.
+- `includesResolved`: one `{ ref, path, status, size }` per entry of `includes`.
+- `linksResolved`: the same shape, one per distinct relative Markdown link (at most 50). URLs with a scheme, `//` and `#`-only links, images, and links in code are skipped; a `#fragment` or `?query` is dropped.
+
+`path` is resolved from the referring file (`~/` from `HOME`). `status` is `present` (inside the project; `size` in bytes for a file, `null` for a directory), `missing` (inside the project, nothing there) or `outside` (the path, or a symlink on the way, leaves the project; `size` is `null`). Targets are never read, and a referenced file never becomes an `instructions` row of its own: those rows become a session's project instructions and are quoted to Codex.
+
 ## Processes
 
 `startRun()` in `lib/runs.mjs` is the only way cockpit starts a long-lived child. The scanner's short `execFile` calls and `lib/git.mjs` are the exception.
@@ -214,7 +224,7 @@ Which test covers which subsystem: [harness.md](harness.md#where-to-look).
 ## Known limits
 
 - **Skill relationships** cover `[[name]]` links and `/name` mentions in `SKILL.md` only.
-- **`@include` resolution** (Instructions view, Attention panel) matches only files the scanner already collected. An import of any other file, such as this repo's own `CLAUDE.md` → `harness.md`, is reported as "could not find among scanned instruction files".
+- **Instruction references** cover line-start `@imports` in project `CLAUDE.md` only (not `CLAUDE.local.md`, the global `CLAUDE.md` or memory files; not mid-line `@`s; and a line-start `@` inside a code block still counts), inline Markdown links only (not reference-style), and one level: a referenced file's own imports and links are not followed. Whether an agent loaded or read a target in a given session is not observed.
 - **Plugins.** Marketplace directories and `installed_plugins.json` are listed. Plugin-provided commands and MCP servers are not resolved.
 - **Transcripts** show what the CLIs stored. Claude thinking blocks are usually empty, and Codex's base instructions are counted, not shown. The "what shaped this session" panel is built from the current disk state, not a snapshot from the time of the session.
 - **The Attention panel** uses simple heuristics (presence checks and prefix matches on exec-policy rules).
